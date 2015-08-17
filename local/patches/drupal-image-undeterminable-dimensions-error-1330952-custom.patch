@@ -1,0 +1,51 @@
+diff --git a/modules/image/image.field.inc b/modules/image/image.field.inc
+index 6d1867c..6ebe529 100644
+--- a/modules/image/image.field.inc
++++ b/modules/image/image.field.inc
+@@ -232,7 +232,7 @@ function image_field_presave($entity_type, $entity, $field, $instance, $langcode
+ 
+   // Determine the dimensions if necessary.
+   foreach ($items as &$item) {
+-    if (!isset($item['width']) || !isset($item['height'])) {
++    if (empty($item['width']) || empty($item['height'])) {
+       $info = image_get_info(file_load($item['fid'])->uri);
+ 
+       if (is_array($info)) {
+diff --git a/modules/image/image.module b/modules/image/image.module
+index c6a23f2..ce02a02 100644
+--- a/modules/image/image.module
++++ b/modules/image/image.module
+@@ -540,6 +540,33 @@ function image_field_update_instance($instance, $prior_instance) {
+ }
+ 
+ /**
++ * Implements hook_field_validate().
++ *
++ * Possible error codes:
++ * - 'invalid_image': This error may occur when graphic processor do not success
++ *   in getting the image dimensions (GD not correctly installed, Image Magick
++ *   binaries missing, invalid image, etc.).
++ *
++ * @see https://www.drupal.org/node/1330952 for the big picture.
++ */
++function image_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
++  foreach ($items as $delta => $item) {
++    if (!empty($item['fid'])) {
++      if (empty($item['width']) || empty($item['height'])) {
++        $info = image_get_info(file_load($item['fid'])->uri);
++
++        if (!is_array($info)) {
++          $errors[$field['field_name']][$langcode][$delta][] = array(
++            'error' => 'invalid_image',
++            'message' => t('%name: the given image seems to be corrupted.', array('%name' => $instance['label'])),
++          );
++        }
++      }
++    }
++  }
++}
++
++/**
+  * Clears cached versions of a specific file in all styles.
+  *
+  * @param $path

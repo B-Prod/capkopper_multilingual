@@ -1,0 +1,85 @@
+name = capKopper Multilingual
+distribution_name = "capKopper Multilingual"
+description = "capKopper Multilingual is a distribution based on Panopoly that handles multilingual sites."
+version = "7.x-1.x"
+core = "7.x"
+exclusive = 1
+
+base[] = panopoly
+
+files[] = capkopper_multilingual.install
+files[] = capkopper_multilingual.profile
+
+;
+; Drupal Core
+;
+
+dependencies[] = menu
+dependencies[] = image
+dependencies[] = list
+dependencies[] = locale
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = taxonomy
+dependencies[] = search
+dependencies[] = shortcut
+dependencies[] = field
+dependencies[] = field_ui
+dependencies[] = file
+dependencies[] = update
+
+;
+; Panopoly Modules
+;
+
+; Panopoly Foundation
+dependencies[] = panopoly_core
+dependencies[] = panopoly_images
+dependencies[] = panopoly_theme
+dependencies[] = panopoly_magic
+dependencies[] = panopoly_widgets
+dependencies[] = panopoly_admin
+dependencies[] = panopoly_users
+
+; Panopoly Toolset
+dependencies[] = panopoly_pages
+dependencies[] = panopoly_search
+dependencies[] = panopoly_wysiwyg
+
+; Panopoly Recommended - Admin & UI
+dependencies[] = backports
+dependencies[] = breakpoints
+;dependencies[] = date_popup_authored
+dependencies[] = module_filter
+dependencies[] = navbar
+dependencies[] = save_draft
+dependencies[] = simplified_menu_admin
+dependencies[] = views_ui
+
+; Panopoly Recommended - Other
+;dependencies[] = apps
+;dependencies[] = defaultcontent
+;dependencies[] = devel
+dependencies[] = uuid
+
+; capKopper Multilingual Required Modules
+dependencies[] = capkopper_core
+
+; capKopper Multilingual Required Submodules
+dependencies[] = capkopper_admin
+dependencies[] = capkopper_et
+dependencies[] = capkopper_i18n
+dependencies[] = capkopper_pages
+dependencies[] = capkopper_theme
+dependencies[] = capkopper_user
+dependencies[] = capkopper_widgets
+
+;
+; capKopper Multilingual contrib modules
+;
+
+dependencies[] = features_override
+dependencies[] = libraries
+dependencies[] = panels_customerror
+

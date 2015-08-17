@@ -1,0 +1,174 @@
+diff --git a/includes/form.inc b/includes/form.inc
+index 3840885..62e602d 100644
+--- a/includes/form.inc
++++ b/includes/form.inc
+@@ -1646,10 +1646,15 @@ function form_set_error($name = NULL, $message = '', $limit_validation_errors =
+       }
+     }
+     if ($record) {
+-      $form[$name] = $message;
+       if ($message) {
+         drupal_set_message($message, 'error');
+       }
++      else {
++        // If the message is empty, save a default message. This is needed for
++        // _form_set_class() which tests whether the returned value is empty.
++        $message = t('Error in @name field.', array('@name' => $name));
++      }
++      $form[$name] = $message;
+     }
+   }
+ 
+diff --git a/modules/simpletest/tests/form.test b/modules/simpletest/tests/form.test
+index f90b854..6ea9ba8 100644
+--- a/modules/simpletest/tests/form.test
++++ b/modules/simpletest/tests/form.test
+@@ -1361,6 +1361,52 @@ class FormsFormWrapperTestCase extends DrupalWebTestCase {
+ }
+ 
+ /**
++ * Test error class handling.
++ */
++class FormsErrorClassTestCase extends DrupalWebTestCase {
++  public static function getInfo() {
++    return array(
++      'name' => 'Form element error class',
++      'description' => 'Tests that form elements get an error class when form_set_error() is called with an empty message.',
++      'group' => 'Form API',
++    );
++  }
++
++  function setUp() {
++    parent::setUp('form_test');
++  }
++
++  /**
++   * Tests if the error class is applied to all three texfields on a form.
++   */
++  function testErrorClasses() {
++    $edit = array();
++    $this->drupalPost('form-test/error-classes', $edit, t('Submit'));
++    $this->assertFieldByXPath('//input[@name="title1" and contains(@class,"error")]', "DEFAULT", 'Error class added to title1.');
++    $this->assertFieldByXPath('//input[@name="title2" and contains(@class,"error")]', "DEFAULT", 'Error class added to title2.');
++    $this->assertFieldByXPath('//input[@name="title3" and contains(@class,"error")]', "DEFAULT", 'Error class added to title3.');
++    $this->assertFieldByXPath('//input[@name="tree[trunk]" and contains(@class,"error")]', "", 'Error class added to tree[trunk].');
++    $this->assertNoText('form_test_error_class success.', t('The form failed validation.'));
++
++    $edit['title3'] = $edit['title2'] = $edit['title1'] = $edit['tree[trunk]'] = $this->randomName();
++    $this->drupalPost('form-test/error-classes', $edit, t('Submit'));
++    $this->assertFieldByXPath('//input[@name="title1" and contains(@class,"error")]', $edit['title1'], 'Error class added to title1.');
++    $this->assertFieldByXPath('//input[@name="title2" and contains(@class,"error")]', $edit['title2'], 'Error class added to title2.');
++    $this->assertFieldByXPath('//input[@name="title3" and contains(@class,"error")]', $edit['title3'], 'Error class added to title3.');
++    $this->assertNoText('form_test_error_class success.', t('The form failed validation.'));
++
++    $edit['title2'] = $edit['title1'] . $this->randomName();
++    $edit['title3'] = $edit['title2'] . $this->randomName();
++    $this->drupalPost('form-test/error-classes', $edit, t('Submit'));
++    $this->assertNoFieldByXPath('//input[@name="title1" and contains(@class,"error")]', $edit['title1'], 'Error class not added to title1.');
++    $this->assertNoFieldByXPath('//input[@name="title2" and contains(@class,"error")]', $edit['title2'], 'Error class not added to title2.');
++    $this->assertNoFieldByXPath('//input[@name="title3" and contains(@class,"error")]', $edit['title3'], 'Error class not added to title3.');
++    $this->assertNoFieldByXPath('//input[@name="tree[trunk]" and contains(@class,"error")]', $edit['tree[trunk]'], 'Error class not added to tree[trunk].');
++    $this->assertText('form_test_error_class success.', t('The form passed validation.'));
++  }
++}
++
++/**
+  * Test $form_state clearance.
+  */
+ class FormStateValuesCleanTestCase extends DrupalWebTestCase {
+diff --git a/modules/simpletest/tests/form_test.module b/modules/simpletest/tests/form_test.module
+index 602b409..122b883 100644
+--- a/modules/simpletest/tests/form_test.module
++++ b/modules/simpletest/tests/form_test.module
+@@ -247,6 +247,14 @@ function form_test_menu() {
+     'type' => MENU_CALLBACK,
+   );
+ 
++  $items['form-test/error-classes'] = array(
++    'title' => 'Form error class test',
++    'page callback' => 'drupal_get_form',
++    'page arguments' => array('form_test_error_class'),
++    'access callback' => TRUE,
++    'type' => MENU_CALLBACK,
++  );
++
+   return $items;
+ }
+ 
+@@ -1621,6 +1629,76 @@ function form_test_form_form_test_state_persist_alter(&$form, &$form_state) {
+ }
+ 
+ /**
++ * Form constructor for testing error classes.
++ */
++function form_test_error_class($form, &$form_state) {
++  // Three textfeilds with the same default value.
++  $form['title1'] = array(
++    '#type' => 'textfield',
++    '#title' => 'title1',
++    '#default_value' => 'DEFAULT',
++    '#required' => TRUE,
++  );
++  $form['title2'] = array(
++    '#type' => 'textfield',
++    '#title' => 'title2',
++    '#default_value' => 'DEFAULT',
++    '#required' => TRUE,
++  );
++  $form['title3'] = array(
++    '#type' => 'textfield',
++    '#title' => 'title3',
++    '#default_value' => 'DEFAULT',
++    '#required' => TRUE,
++  );
++  $form['tree'] = array(
++    '#tree' => TRUE,
++  );
++  $form['tree']['trunk'] = array(
++    '#type' => 'textfield',
++    '#title' => 'trunk',
++    '#default_value' => '',
++    '#element_validate' => array('form_test_error_class_tree_validate'),
++  );
++  $form['submit'] = array(
++    '#type' => 'submit',
++    '#value' => t('Submit'),
++  );
++  return $form;
++}
++
++/**
++ * Form validation handler which requires all title values to be unique.
++ */
++function form_test_error_class_validate($form, &$form_state) {
++  $values[] = $form_state['values']['title1'];
++  $values[] = $form_state['values']['title3'];
++  $values[] = $form_state['values']['title2'];
++  $unique = array_unique($values);
++  if (count($unique) < count($values)) {
++    form_set_error('title1', 'Fields must have unique values');
++    form_set_error('title2');
++    form_set_error('title3');
++  }
++}
++
++/**
++ * Element validation handler which requires the element value to be not empty.
++ */
++function form_test_error_class_tree_validate($element, &$form_state) {
++  if (empty($element['#value'])) {
++    form_error($element);
++  }
++}
++
++/**
++ * Form submit handler that just sets a message.
++ */
++function form_test_error_class_submit($form, &$form_state) {
++  drupal_set_message('form_test_error_class success.');
++}
++
++/**
+  * Form builder to test programmatic form submissions.
+  */
+ function form_test_programmatic_form($form, &$form_state) {
