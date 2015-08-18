@@ -1,3 +1,6 @@
+Modules to enable:
+  - dblog
+
 Patches to add:
   - https://www.drupal.org/files/issues/panels-re-generated-uuids-on-clone.patch
   - https://www.drupal.org/files/issues/page_manager-Cloning%20page%20manager%20handlers%20leads%20to%20duplicated%20uuids-2449245-05.patch
