@@ -1,5 +1,5 @@
-Modules to enable:
-  - dblog
+Modules to add:
+  - better formats
 
 Patches to add:
   - https://www.drupal.org/files/issues/panels-re-generated-uuids-on-clone.patch

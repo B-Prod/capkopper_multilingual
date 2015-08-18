@@ -129,6 +129,9 @@ projects[panopoly_core][patch][2510944] = https://www.drupal.org/files/issues/25
 ; Update views_autocomplete_filters to version 1.2
 projects[panopoly_core][patch][2456255] = https://www.drupal.org/files/issues/panopoly_core-autocomplete-1.2-2456255-12.patch
 
+; Error on install of Panopoly-based install profile: "Column 'module' cannot be null" when profile starts with "e"
+projects[panopoly_core][patch][2183937] = https://www.drupal.org/files/issues/column_module_cannot_be_null-panopoly_core-2183937-20.patch
+
 projects[panopoly_images][version] = 1.25
 projects[panopoly_images][subdir] = panopoly
 

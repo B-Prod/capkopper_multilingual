@@ -19,10 +19,6 @@ In addition to the normal Drupal 7 requirements, you should ensure your PHP
 memory_limit (php.ini) is set to at least 128M and your MySQL
 max_allowed_packet (my.cnf) is at least 32M.
 
-## ISSUES
-
-This issue needs to be fixed: https://www.drupal.org/node/2183937
-
 ## UPDATING THE DISTRIBUTION
 
 Please have a look on this article regarding Panopoly:
