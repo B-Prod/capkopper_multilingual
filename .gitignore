@@ -1,3 +1,10 @@
 # Local modules folder, that is used for development.
 /local/modules/
 
+# Phing stuffs
+/bin
+/vendor
+/composer.phar
+/build-temp
+/build.properties
+
