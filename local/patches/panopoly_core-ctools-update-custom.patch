@@ -1,0 +1,28 @@
+diff --git a/panopoly_core.make b/panopoly_core.make
+index 0b596d8..63cf5ba 100644
+--- a/panopoly_core.make
++++ b/panopoly_core.make
+@@ -5,20 +5,21 @@ core = 7.x
+ 
+ ; Panels and Chaos Tools Magic
+ 
+-projects[ctools][version] = 1.8
++projects[ctools][version] = 1.9
+ projects[ctools][subdir] = contrib
+ projects[ctools][patch][1910608] = https://www.drupal.org/files/issues/views_content-keyword-substitution-1910608-33.patch
+ projects[ctools][patch][1901106] = https://www.drupal.org/files/issues/1901106-ctools-views_content-override-ajax-34.patch
+ projects[ctools][patch][2023705] = http://drupal.org/files/2023705-ctools-autosubmit-2_0.patch
+ projects[ctools][patch][2448989] = https://www.drupal.org/files/issues/2448989-ctools-from_field_children-8.patch
+ projects[ctools][patch][2483415] = https://www.drupal.org/files/issues/ctools-more_than_one_comment_pager-2483415-1.patch
+-projects[ctools][patch][2493041] = https://www.drupal.org/files/issues/ctools-n2493041-3.patch
+ projects[ctools][patch][2555469] = https://www.drupal.org/files/issues/2555469-ctools-comments-node_tag_new-2.patch
++projects[ctools][patch][2449245] = https://www.drupal.org/files/issues/ctools-cloning-page-manager-duplicates-uuids-2449245-07.patch
+ 
+ projects[panels][version] = 3.5
+ projects[panels][subdir] = contrib
+ projects[panels][patch][2448825] = https://www.drupal.org/files/issues/panels-export-indentation-2448825-1.patch
+ projects[panels][patch][2390803] = https://www.drupal.org/files/issues/panels-focus-add-content-tab-2390803-13.patch
++projects[panels][patch][2253919] = https://www.drupal.org/files/issues/panels-re-generated-uuids-on-clone.patch
+ 
+ projects[panels_breadcrumbs][version] = 2.2
+ projects[panels_breadcrumbs][subdir] = contrib
