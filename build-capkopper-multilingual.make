@@ -21,7 +21,3 @@ projects[capkopper_multilingual][download][type] = git
 projects[capkopper_multilingual][download][url] = git@github.com:capKopper/capkopper_multilingual.git
 projects[capkopper_multilingual][download][branch] = 7.x-1.x
 
-# For local development.
-;projects[capkopper_multilingual][download][type] = local
-;projects[capkopper_multilingual][download][source] = ~/www/github/capkopper_multilingual
-

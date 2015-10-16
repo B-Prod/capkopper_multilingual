@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<project name="capkopper_multilingual" default="usage">
+  <import file="build/build.import.xml" />
+  
+  <target name="install-ck-multilingual"
+        depends="install-drush, ck-multilingual-update-drupal-settings"
+        description="Install capKopper Multilingual distribution using Drush.">
+  </target>
+
+  <target name="install-ck-multilingual-dev"
+        depends="make-core-dev, install-ck-multilingual"
+        description="Install DEV version of the capKopper Multilingual distribution using Drush.">
+  </target>
+
+  <target name="ck-multilingual-update-drupal-settings"
+        depends="init, setup-drush"
+        description="Install capKopper Multilingual distribution using Drush.">
+        
+    <!-- Add specific configuration to the settings.php file -->
+    <if>
+      <available file="${build.core.dir}/sites/${drush.site-install.sites_subdir}/settings.php" />
+      <then>
+        <chmod file="${build.core.dir}/sites/${drush.site-install.sites_subdir}/settings.php" mode="0644" />
+
+        <!-- Add Filecache configuration -->
+        <append destFile="${build.core.dir}/sites/${drush.site-install.sites_subdir}/settings.php" file="${phing.dir}/build/config/filecache.conf">
+          <filterchain>
+            <replacetokens begintoken="%%" endtoken="%%">
+              <token key="PROFILE" value="${drupal.profile}" />
+            </replacetokens>
+          </filterchain>
+        </append>
+
+        <!-- Add Composer Manager configuration -->
+        <append destFile="${build.core.dir}/sites/${drush.site-install.sites_subdir}/settings.php" file="${phing.dir}/build/config/composer-manager.conf" />
+
+        <!-- Add capKopper SMTP configuration -->
+        <if>
+          <and>
+            <isset property="drush.site-install.capkopper-smtp"/>
+            <istrue value="${drush.site-install.capkopper-smtp}"/>
+          </and>
+          <then>
+            <append destFile="${build.core.dir}/sites/${drush.site-install.sites_subdir}/settings.php" file="${phing.dir}/build/config/capkopper-smtp.conf" />
+          </then>
+        </if>                         
+
+        <!-- Add capKopper SEO configuration -->
+        <if>
+          <and>
+            <isset property="drush.site-install.capkopper-seo"/>
+            <istrue value="${drush.site-install.capkopper-seo}"/>
+          </and>
+          <then>
+            <append destFile="${build.core.dir}/sites/${drush.site-install.sites_subdir}/settings.php" file="${phing.dir}/build/config/capkopper-seo.conf" />
+          </then>
+        </if>
+      </then>
+    </if>
+
+    <!-- Set variable: site default country -->
+    <if>
+      <and>
+        <isset property="drush.site-install.site-default-country"/>
+        <not>
+          <equals arg1="${drush.site-install.site-default-country}" arg2="" />
+        </not>
+      </and>
+      <then>
+        <drush command="variable-set" root="${build.core.dir}" assume="yes">
+          <param>site_default_country</param>
+          <param>${drush.site-install.site-default-country}</param>
+        </drush>
+        <echo msg="Default country set to '${drush.site-install.site-default-country}'."/>
+      </then>
+      <else>
+        <echo msg="Default country is not specified and was ignored."/>
+      </else>
+    </if>
+
+    <!-- Set variable: date first day -->
+    <if>
+      <and>
+        <isset property="drush.site-install.date-first-day"/>
+        <not>
+          <equals arg1="${drush.site-install.date-first-day}" arg2="" />
+        </not>
+      </and>
+      <then>
+        <drush command="variable-set" root="${build.core.dir}" assume="yes">
+          <param>date_first_day</param>
+          <param>${drush.site-install.date-first-day}</param>
+        </drush>
+        <echo msg="Date first day set to '${drush.site-install.date-first-day}'."/>
+      </then>
+      <else>
+        <echo msg="Date first day is not specified and was ignored."/>
+      </else>
+    </if>
+
+    <!-- Set variable: date default timezone -->
+    <if>
+      <and>
+        <isset property="drush.site-install.date-default-timezone"/>
+        <not>
+          <equals arg1="${drush.site-install.date-default-timezone}" arg2="" />
+        </not>
+      </and>
+      <then>
+        <drush command="variable-set" root="${build.core.dir}" assume="yes">
+          <param>date_default_timezone</param>
+          <param>${drush.site-install.date-default-timezone}</param>
+        </drush>
+        <echo msg="Date default timezone set to '${drush.site-install.date-default-timezone}'."/>
+      </then>
+      <else>
+        <echo msg="Date default timezone is not specified and was ignored."/>
+      </else>
+    </if>
+
+    <!-- Install module: capkopper_i18n_en -->
+    <if>
+      <and>
+        <isset property="drush.site-install.capkopper-i18n-en"/>
+        <istrue value="${drush.site-install.capkopper-i18n-en}"/>
+      </and>
+      <then>
+        <drush command="pm-enable" root="${build.core.dir}" assume="yes">
+          <param>capkopper_i18n_en</param>
+        </drush>
+        <echo msg="capKopper i18n EN module has been enabled."/>
+      </then>
+    </if>
+
+    <!-- Install module: capkopper_i18n_fr -->
+    <if>
+      <and>
+        <isset property="drush.site-install.capkopper-i18n-fr"/>
+        <istrue value="${drush.site-install.capkopper-i18n-fr}"/>
+      </and>
+      <then>
+        <drush command="pm-enable" root="${build.core.dir}" assume="yes">
+          <param>capkopper_i18n_fr</param>
+        </drush>
+        <echo msg="capKopper i18n FR module has been enabled."/>
+      </then>
+    </if>
+
+    <!-- Install module: capkopper_performance -->
+    <if>
+      <and>
+        <isset property="drush.site-install.capkopper-performance"/>
+        <istrue value="${drush.site-install.capkopper-performance}"/>
+      </and>
+      <then>
+        <drush command="pm-enable" root="${build.core.dir}" assume="yes">
+          <param>capkopper_performance</param>
+        </drush>
+        <echo msg="capKopper Performance module has been enabled."/>
+      </then>
+    </if>
+
+    <!-- Install module: capkopper_seo -->
+    <if>
+      <and>
+        <isset property="drush.site-install.capkopper-seo"/>
+        <istrue value="${drush.site-install.capkopper-seo}"/>
+      </and>
+      <then>
+        <drush command="pm-enable" root="${build.core.dir}" assume="yes">
+          <param>capkopper_seo</param>
+        </drush>
+        <echo msg="capKopper SEO module has been enabled."/>
+      </then>
+    </if>
+
+    <!-- Install module: capkopper_smtp -->
+    <if>
+      <and>
+        <isset property="drush.site-install.capkopper-smtp"/>
+        <istrue value="${drush.site-install.capkopper-smtp}"/>
+      </and>
+      <then>
+        <drush command="pm-enable" root="${build.core.dir}" assume="yes">
+          <param>capkopper_smtp</param>
+        </drush>
+        <echo msg="capKopper SMTP module has been enabled."/>
+      </then>
+    </if>
+  </target>
+
+</project>
