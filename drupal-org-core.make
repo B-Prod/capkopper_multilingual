@@ -3,7 +3,7 @@ core = 7.x
 
 ; Drupal Core
 projects[drupal][type] = core
-projects[drupal][version] = 7.38
+projects[drupal][version] = 7.40
 
 ; ***** Patches from Panopoly *******
 ; Bug with image styles on database update
@@ -22,30 +22,30 @@ projects[drupal][patch][1330952] = local/patches/drupal-image-undeterminable-dim
 projects[drupal][patch][2067229] = https://www.drupal.org/files/issues/drupal-inheritable-profiles-2067229-47.patch
 
 ; Patch for fixing node_access across non-required Views relationships
-projects[drupal][patch][1349080] = https://www.drupal.org/files/issues/1349080-195-d7-move-access-to-join-condition.patch
+projects[drupal][patch][1349080] = https://www.drupal.org/files/issues/1349080-269-d7-access_subquery_placeholder_counter_fix-and-test.patch
 
 ; Patch for simpletest
 projects[drupal][patch][911354] = http://drupal.org/files/911354-drupal-profile-85.patch
 
 ; Patch to allow install profile enabling to enable dependencies correctly.
-projects[drupal][patch][1093420] = http://drupal.org/files/1093420-22.patch
+projects[drupal][patch][1093420] = https://www.drupal.org/files/issues/drupal-simpletestprofiledependencies-1093420-27-7.x.patch
 
-; Patch to prevent empty titles when menu_check_access called more than once
-projects[drupal][patch][1697570] = http://drupal.org/files/drupal-menu_always_load_objects-1697570-5.patch
+; Build menu_tree without loading so many objects
+projects[drupal][patch][1978176] = https://www.drupal.org/files/issues/drupal-1978176-menu_load_objects.patch
 
 ; Patch to fix sanitization of titles in entity_reference
-projects[drupal][patch][1919338] = http://drupal.org/files/issues/options_drupal7-1919338-58.patch
+projects[drupal][patch][1919338] = https://www.drupal.org/files/issues/select-widget-options-D7-1919338-87.patch
 
 ; Patch to move registry build so entity_get_info can be called during install.
 projects[drupal][patch][1311820] = https://www.drupal.org/files/issues/1311820-drupal-registry_update-13.patch
 
 ; Make node access queries more performant
-projects[drupal][patch][106721] = https://www.drupal.org/files/issues/drupal-106721-optimize_node_access_queries-115.patch
+projects[drupal][patch][106721] = https://www.drupal.org/files/issues/106721-drupal-optomize-queries-1349080-121-do-not-test.patch
 
 ; Cache user grants.
-projects[drupal][patch][2199001] = https://www.drupal.org/files/issues/node_access_grants-static-cache-11.patch
+projects[drupal][patch][2199001] = https://www.drupal.org/files/issues/node_access_grants-static-cache-16.patch
 
-; Fix javascript error with angular
+; vertical tabs: Uncaught Error: Syntax error, unrecognized expression: #/<whatever>
 projects[drupal][patch][2492993] = https://www.drupal.org/files/issues/2492993-drupal-hash-1.patch
 
 ; Fix invalid headers with image styles

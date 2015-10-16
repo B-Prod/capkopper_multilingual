@@ -1,0 +1,208 @@
+diff --git a/panopoly_search.features.inc b/panopoly_search.features.inc
+index d13d0cc..3aa1d52 100644
+--- a/panopoly_search.features.inc
++++ b/panopoly_search.features.inc
+@@ -149,134 +149,6 @@ function panopoly_search_default_search_api_index() {
+     "enabled" : "1",
+     "read_only" : "0"
+   }');
+-  $items['node_index'] = entity_import('search_api_index', '{
+-    "name" : "Solr Node Index",
+-    "machine_name" : "node_index",
+-    "description" : null,
+-    "server" : null,
+-    "item_type" : "node",
+-    "options" : {
+-      "index_directly" : 1,
+-      "cron_limit" : "50",
+-      "fields" : {
+-        "author" : { "type" : "integer", "entity_type" : "user" },
+-        "body:summary" : { "type" : "text" },
+-        "body:value" : { "type" : "text" },
+-        "created" : { "type" : "date" },
+-        "nid" : { "type" : "integer" },
+-        "search_api_language" : { "type" : "string" },
+-        "search_api_panelizer_content" : { "type" : "text" },
+-        "search_api_panelizer_title" : { "type" : "text", "boost" : "8.0" },
+-        "search_api_url" : { "type" : "uri" },
+-        "search_api_access_node" : { "type" : "list\\u003Cstring\\u003E" },
+-        "search_api_viewed" : { "type" : "text" },
+-        "status" : { "type" : "boolean" },
+-        "title" : { "type" : "text", "boost" : "8.0" },
+-        "type" : { "type" : "string" },
+-        "url" : { "type" : "uri" }
+-      },
+-      "data_alter_callbacks" : {
+-        "search_api_alter_bundle_filter" : {
+-          "status" : 0,
+-          "weight" : "-50",
+-          "settings" : { "default" : "1", "bundles" : [] }
+-        },
+-        "search_api_alter_node_status" : { "status" : 0, "weight" : "-49", "settings" : [] },
+-        "search_api_alter_node_access" : { "status" : 1, "weight" : "-48", "settings" : [] },
+-        "search_api_alter_add_viewed_entity" : {
+-          "status" : 1,
+-          "weight" : "-47",
+-          "settings" : { "mode" : "search_index" }
+-        },
+-        "panelizer" : { "status" : 1, "weight" : "-46", "settings" : [] },
+-        "search_api_alter_add_url" : { "status" : 1, "weight" : "-45", "settings" : [] },
+-        "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "-44", "settings" : [] },
+-        "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "-43", "settings" : { "fields" : [] } }
+-      },
+-      "processors" : {
+-        "search_api_case_ignore" : {
+-          "status" : 1,
+-          "weight" : "0",
+-          "settings" : { "fields" : {
+-              "title" : true,
+-              "search_api_panelizer_content" : true,
+-              "search_api_panelizer_title" : true,
+-              "search_api_viewed" : true,
+-              "body:value" : true,
+-              "body:summary" : true
+-            }
+-          }
+-        },
+-        "search_api_html_filter" : {
+-          "status" : 1,
+-          "weight" : "10",
+-          "settings" : {
+-            "fields" : {
+-              "title" : true,
+-              "search_api_panelizer_content" : true,
+-              "search_api_panelizer_title" : true,
+-              "search_api_viewed" : true,
+-              "body:value" : true,
+-              "body:summary" : true
+-            },
+-            "title" : 0,
+-            "alt" : 1,
+-            "tags" : "h1 = 5\\r\\nh2 = 3\\r\\nh3 = 2\\r\\nstrong = 2\\r\\nb = 2\\r\\nem = 1.5\\r\\nu = 1.5"
+-          }
+-        },
+-        "search_api_transliteration" : {
+-          "status" : 0,
+-          "weight" : "15",
+-          "settings" : { "fields" : {
+-              "title" : true,
+-              "search_api_viewed" : true,
+-              "body:value" : true,
+-              "body:summary" : true
+-            }
+-          }
+-        },
+-        "search_api_tokenizer" : {
+-          "status" : 1,
+-          "weight" : "20",
+-          "settings" : {
+-            "fields" : {
+-              "title" : true,
+-              "search_api_panelizer_content" : true,
+-              "search_api_panelizer_title" : true,
+-              "search_api_viewed" : true,
+-              "body:value" : true,
+-              "body:summary" : true
+-            },
+-            "spaces" : "[^\\\\p{L}\\\\p{N}^\\u0027]",
+-            "ignorable" : "[-]"
+-          }
+-        },
+-        "search_api_stopwords" : {
+-          "status" : 0,
+-          "weight" : "30",
+-          "settings" : {
+-            "fields" : { "title" : true, "body:value" : true },
+-            "file" : "",
+-            "stopwords" : "but\\r\\ndid\\r\\nthe this that those\\r\\netc"
+-          }
+-        },
+-        "search_api_highlighting" : {
+-          "status" : 0,
+-          "weight" : "35",
+-          "settings" : {
+-            "prefix" : "\\u003Cstrong\\u003E",
+-            "suffix" : "\\u003C\\/strong\\u003E",
+-            "excerpt" : 1,
+-            "excerpt_length" : "256",
+-            "exclude_fields" : [],
+-            "highlight" : "always"
+-          }
+-        }
+-      }
+-    },
+-    "enabled" : "0",
+-    "read_only" : "0"
+-  }');
+   return $items;
+ }
+ 
+@@ -384,22 +256,5 @@ function panopoly_search_default_search_api_server() {
+     },
+     "enabled" : "1"
+   }');
+-  $items['solr_server'] = entity_import('search_api_server', '{
+-    "name" : "Solr Server",
+-    "machine_name" : "solr_server",
+-    "description" : "",
+-    "class" : "search_api_solr_service",
+-    "options" : {
+-      "host" : "localhost",
+-      "port" : "8983",
+-      "path" : "\\/solr",
+-      "http_user" : "",
+-      "http_pass" : "",
+-      "excerpt" : 1,
+-      "retrieve_data" : 0,
+-      "highlight_data" : 0
+-    },
+-    "enabled" : "0"
+-  }');
+   return $items;
+ }
+diff --git a/panopoly_search.info b/panopoly_search.info
+index 09b83ba..7ff2fbc 100644
+--- a/panopoly_search.info
++++ b/panopoly_search.info
+@@ -9,7 +9,6 @@ dependencies[] = search
+ dependencies[] = search_api
+ dependencies[] = search_api_db
+ dependencies[] = search_api_facetapi
+-dependencies[] = search_api_solr
+ dependencies[] = search_api_views
+ dependencies[] = strongarm
+ dependencies[] = views
+@@ -43,9 +42,7 @@ features[facetapi][] = search_api@node_index:block:url
+ features[features_api][] = api:2
+ features[page_manager_pages][] = panopoly_search
+ features[search_api_index][] = database_node_index
+-features[search_api_index][] = node_index
+ features[search_api_server][] = database_server
+-features[search_api_server][] = solr_server
+ features[variable][] = facetapi:block_cache:search_api@database_node_index
+ features[variable][] = facetapi:block_cache:search_api@node_index
+ features[variable][] = search_active_modules
+diff --git a/panopoly_search.make b/panopoly_search.make
+index 5254b4e..09cd042 100644
+--- a/panopoly_search.make
++++ b/panopoly_search.make
+@@ -8,17 +8,11 @@ core = 7.x
+ projects[facetapi][version] = 1.5
+ projects[facetapi][subdir] = contrib
+ 
+-projects[search_api][version] = 1.15
++projects[search_api][version] = 1.16
+ projects[search_api][subdir] = contrib
+ 
+-projects[search_api_solr][version] = 1.8
+-projects[search_api_solr][subdir] = contrib
+-
+-projects[search_api_db][version] = 1.4
++projects[search_api_db][version] = 1.5
+ projects[search_api_db][subdir] = contrib
+-projects[search_api_db][patch][2428693] = https://www.drupal.org/files/issues/entity-type-indhold-doest-specify-a-type-for-the-nid-property-2428693-2.patch
+-projects[search_api_db][patch][2436341] = https://www.drupal.org/files/issues/2436341-search_api_db-updb-1.patch
+-projects[search_api_db][patch][2343371] = https://www.drupal.org/files/issues/2343371-search_api_db-update-table-8.patch
+ 
+ ; Solr PHP Client Library
+ 

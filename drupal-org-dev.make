@@ -107,6 +107,9 @@ projects[panopoly_core][patch][2477347] = https://www.drupal.org/files/issues/24
 ; Patches for ctools from OpenAtrium
 projects[panopoly_core][patch][2477363] = https://www.drupal.org/files/issues/2477363-panopoly_core-ctools-15.patch
 
+; Additional patches for ctools (custom)
+projects[panopoly_core][patch][] = local/patches/panopoly_core-ctools-update-custom.patch
+
 ; Patches for entity from OpenAtrium
 projects[panopoly_core][patch][2477369] = https://www.drupal.org/files/issues/2477369-panopoly_core-entity-1.patch
 
@@ -118,6 +121,9 @@ projects[panopoly_core][patch][2477379] = https://www.drupal.org/files/issues/24
 
 ; Update Features 2.7 (and Features Override)
 projects[panopoly_core][patch][2592731] = https://www.drupal.org/files/issues/2592731-panopoly_core-features-2.patch
+
+; Additional patches for various modules (custom)
+projects[panopoly_core][patch][] = local/patches/panopoly_core-various-modules-update-custom.patch
 
 projects[panopoly_images][version] = 1.27
 projects[panopoly_images][subdir] = panopoly
@@ -140,6 +146,9 @@ projects[panopoly_widgets][patch][2473495] = https://www.drupal.org/files/issues
 ; Patches for file_entity from OpenAtrium
 projects[panopoly_widgets][patch][2477397] = https://www.drupal.org/files/issues/2477397-panopoly_widgets-file_entity-2.patch
 
+; Additional patches for various modules (custom)
+projects[panopoly_widgets][patch][] = local/patches/panopoly_widgets-various-modules-update-custom.patch
+
 projects[panopoly_admin][version] = 1.27
 projects[panopoly_admin][subdir] = panopoly
 
@@ -160,8 +169,14 @@ projects[panopoly_pages][subdir] = panopoly
 projects[panopoly_wysiwyg][version] = 1.27
 projects[panopoly_wysiwyg][subdir] = panopoly
 
+; Additional patches for various modules (custom)
+projects[panopoly_wysiwyg][patch][] = local/patches/panopoly_wysiwyg-various-modules-update-custom.patch
+
 projects[panopoly_search][version] = 1.27
 projects[panopoly_search][subdir] = panopoly
+
+; Additional patches for various modules (custom)
+projects[panopoly_search][patch][] = local/patches/panopoly_search-various-modules-update-custom.patch
 
 ; For running the automated tests.
 
