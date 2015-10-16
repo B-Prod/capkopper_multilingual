@@ -1,8 +1,8 @@
 name = capKopper Multilingual
 distribution_name = "capKopper Multilingual"
 description = "capKopper Multilingual is a distribution based on Panopoly that handles multilingual sites."
-version = "7.x-1.x"
-core = "7.x"
+version = 7.x-1.0-rc1
+core = 7.x
 exclusive = 1
 
 base[] = panopoly
