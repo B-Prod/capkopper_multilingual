@@ -4,7 +4,7 @@
   <import file="build/build.import.xml" />
   
   <target name="install-ck-multilingual"
-        depends="install-drush, ck-multilingual-update-drupal-settings"
+        depends="install-drush, ck-clean-drupal-installation, ck-multilingual-update-drupal-settings"
         description="Install capKopper Multilingual distribution using Drush.">
   </target>
 
@@ -13,9 +13,71 @@
         description="Install DEV version of the capKopper Multilingual distribution using Drush.">
   </target>
 
+  <target name="ck-clean-drupal-installation"
+        depends="init, setup-drush"
+        description="Clean Drupal installtion using Drush.">
+
+    <delete file="${build.core.dir}/profiles/${drupal.profile}" />
+    <copy todir="${build.core.dir}/profiles/${drupal.profile}">
+      <fileset dir="${phing.dir}">
+        <include name="**"></include>
+        <exclude name="**/.git/**"></exclude>
+        <exclude name="/.gitignore"></exclude>
+        <exclude name="/local/**"></exclude>
+        <exclude name="/bin/**"></exclude>
+        <exclude name="/build/**"></exclude>
+        <exclude name="/build-capkopper-multilingual-dev.make"></exclude>
+        <exclude name="/build-capkopper-multilingual.make"></exclude>
+        <exclude name="/build.default.properties"></exclude>
+        <exclude name="/build.properties"></exclude>
+        <exclude name="/build-temp/**"></exclude>
+        <exclude name="/build.xml"></exclude>
+        <exclude name="/composer.json"></exclude>
+        <exclude name="/composer.lock"></exclude>
+        <exclude name="/drupal-org-core.make"></exclude>
+        <exclude name="/drupal-org-dev.make"></exclude>
+        <exclude name="/drupal-org.make"></exclude>
+        <exclude name="/make/**"></exclude>
+        <exclude name="/vendor/**"></exclude>
+      </fileset>
+    </copy>
+
+    <copy todir="${build.core.dir}/sites/all/drush">
+      <fileset dir="${phing.dir}/local/drush">
+        <include name="**"></include>
+      </fileset>
+    </copy>
+
+    <delete file="${build.core.dir}/CHANGELOG.txt" />
+    <delete file="${build.core.dir}/COPYRIGHT.txt" />
+    <delete file="${build.core.dir}/INSTALL.mysql.txt" />
+    <delete file="${build.core.dir}/INSTALL.pgsql.txt" />
+    <delete file="${build.core.dir}/install.php" />
+    <delete file="${build.core.dir}/INSTALL.sqlite.txt" />
+    <delete file="${build.core.dir}/INSTALL.txt" />
+    <delete file="${build.core.dir}/LICENSE.txt" />
+    <delete file="${build.core.dir}/MAINTAINERS.txt" />
+    <delete file="${build.core.dir}/modules/README.txt" />
+    <delete file="${build.core.dir}/PATCHES.txt" />
+    <delete file="${build.core.dir}/README.txt" />
+    <delete file="${build.core.dir}/sites/all/libraries/README.txt" />
+    <delete file="${build.core.dir}/sites/all/modules/README.txt" />
+    <delete file="${build.core.dir}/sites/all/themes/README.txt" />
+    <delete file="${build.core.dir}/sites/example.sites.php" />
+    <delete file="${build.core.dir}/sites/README.txt" />
+    <delete file="${build.core.dir}/themes/README.txt" />
+    <delete file="${build.core.dir}/UPGRADE.txt" />
+    <delete file="${build.core.dir}/*.patch" />
+
+    <chmod file="${build.core.dir}/sites/default" mode="0755" />
+    <delete file="${build.core.dir}/sites/default/default.settings.php" />
+    <chmod file="${build.core.dir}/sites/default" mode="0555" />
+
+  </target>
+
   <target name="ck-multilingual-update-drupal-settings"
         depends="init, setup-drush"
-        description="Install capKopper Multilingual distribution using Drush.">
+        description="Update Drupal configuration using Drush.">
         
     <!-- Add specific configuration to the settings.php file -->
     <if>
