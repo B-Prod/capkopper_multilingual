@@ -16,8 +16,9 @@ function capkopper_multilingual_install() {
  * Set the default theme.
  */
 function _capkopper_multilingual_set_up_theme() {
-  $theme = 'responsive_bartik';
-  theme_enable(array($theme));
-  variable_set('theme_default', $theme);
-  theme_disable(array('bartik'));
+  // We do more rely on Responsive Bartik...
+  //$theme = 'responsive_bartik';
+  //theme_enable(array($theme));
+  //variable_set('theme_default', $theme);
+  //theme_disable(array('bartik'));
 }
