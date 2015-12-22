@@ -55,7 +55,11 @@
     <delete file="${build.core.dir}/sites/README.txt" />
     <delete file="${build.core.dir}/themes/README.txt" />
     <delete file="${build.core.dir}/UPGRADE.txt" />
-    <delete file="${build.core.dir}/**.patch" />
+    <delete>
+      <fileset dir="${build.core.dir}">
+        <include name="*.patch" />
+      </fileset>
+    </delete>
 
     <chmod file="${build.core.dir}/sites/default" mode="0755" />
     <delete file="${build.core.dir}/sites/default/default.settings.php" />
@@ -197,20 +201,6 @@
         <echo msg="Date default timezone is not specified and was ignored."/>
       </else>
     </if>
-
-    <!-- Update translations
-        This returns an error when there are no translations and make the build
-        fail. -->
-    <!--<if>
-      <and>
-        <isset property="drush.site-init.l10n-update"/>
-        <istrue value="${drush.site-init.l10n-update}"/>
-      </and>
-      <then>
-        <drush command="l10n-update" root="${build.core.dir}" assume="yes">
-        </drush>
-      </then>
-    </if>-->
   </target>
 
   <target name="ck-install-extra-modules"
@@ -225,7 +215,7 @@
       </and>
       <then>
         <drush command="pm-enable" root="${build.core.dir}" assume="yes">
-          <param>capkopper_egt</param>
+          <param>capkopper_et</param>
         </drush>
         <echo msg="capKopper Entity Translation module has been enabled."/>
       </then>
@@ -281,6 +271,13 @@
         </drush>
         <echo msg="capKopper i18n FR module has been enabled."/>
       </then>
+      <else>
+        <!-- Do not update the translations if there is no language that needs
+            it, otherwise the drush command returns an error that makes the
+            build fail.
+            @TODO should we use checkreturn="false"? -->
+        <property name="drush.site-init.l10n-update" value="false"/>
+      </else>
     </if>
 
     <!-- Install module: capkopper_performance -->
@@ -322,6 +319,76 @@
           <param>capkopper_smtp</param>
         </drush>
         <echo msg="capKopper SMTP module has been enabled."/>
+      </then>
+    </if>
+
+    <!-- Update translations -->
+    <if>
+      <and>
+        <isset property="drush.site-init.l10n-update"/>
+        <istrue value="${drush.site-init.l10n-update}"/>
+      </and>
+      <then>
+        <drush command="l10n-update" root="${build.core.dir}" assume="yes">
+        </drush>
+      </then>
+    </if>
+
+    <!-- Prepare versioning -->
+    <if>
+      <and>
+        <isset property="drush.capkopper.prepare-versioning"/>
+        <istrue value="${drush.capkopper.prepare-versioning}"/>
+      </and>
+      <then>
+        <chmod file="${build.core.dir}/sites/default" mode="0755" />
+
+        <exec command="mv ${build.core.dir} ${build.core.dir}/../drupal" />
+        <mkdir dir="${build.core.dir}" />
+        <exec command="mv ${build.core.dir}/../drupal ${build.core.dir}" />
+
+
+
+        <!--<move todir="${build.core.dir}/drupal" includeemptydirs="true">
+          <fileset dir="${build.core.dir}">
+            <exclude name="/drupal" />
+          </fileset>
+        </move>-->
+        <mkdir dir="${build.core.dir}/config/default" />
+
+        <move todir="${build.core.dir}/config/default">
+          <fileset dir="${build.core.dir}/drupal">
+            <include name=".htaccess" />
+            <include name="web.config" />
+          </fileset>
+        </move>
+
+        <chmod file="${build.core.dir}/drupal/sites/default" mode="0555" />
+
+        <copy file="${build.core.dir}/drupal/sites/default/settings.php" tofile="${build.core.dir}/config/default/settings.php" />
+
+        <copy file="${phing.dir}/build/config/gitignore-sample" tofile="${build.core.dir}/.gitignore" />
+
+        <!-- @TODO change the sample settings.php file database configuration -->
+
+        <!-- Initialize repository -->
+        <if>
+          <and>
+            <isset property="drush.capkopper.git-repository"/>
+            <not>
+              <equals arg1="${drush.capkopper.git-repository}" arg2="" />
+            </not>
+          </and>
+          <then>
+            <exec command="git init" dir="${build.core.dir}" checkreturn="false" />
+            <exec command="git branch develop" dir="${build.core.dir}" checkreturn="false" />
+            <exec command="git checkout develop" dir="${build.core.dir}" checkreturn="false" />
+            <exec command="git remote add origin ${drush.capkopper.git-repository}" dir="${build.core.dir}" checkreturn="false" />
+            <!-- @TODO add the gitflow configuration -->
+
+            <!--<exec command="git push -u origin --all" dir="${build.core.dir}" checkreturn="false" />-->
+          </then>
+        </if>
       </then>
     </if>
   </target>

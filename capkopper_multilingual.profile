@@ -246,6 +246,11 @@ function capkopper_multilingual_finalize() {
  */
 function capkopper_multilingual_get_features() {
   return array(
+    'capkopper_et' => array(
+      'title' => st('Entity Translation'),
+      'description' => st('Support entities/fields translation using Entity Translation.'),
+    ),
+    // @todo Add capkopper_i18n here?
     'capkopper_i18n_en' => array(
       'title' => st('English support'),
       'description' => st('Add translations, locale date configuration, etc.'),
