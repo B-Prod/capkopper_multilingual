@@ -10,23 +10,23 @@
       <fileset dir="${phing.dir}">
         <include name="**"></include>
         <exclude name="**/.git/**"></exclude>
-        <exclude name="/.gitignore"></exclude>
-        <exclude name="/local/**"></exclude>
-        <exclude name="/bin/**"></exclude>
-        <exclude name="/build/**"></exclude>
-        <exclude name="/build-capkopper-corporate-dev.make"></exclude>
-        <exclude name="/build-capkopper-corporate.make"></exclude>
-        <exclude name="/build.default.properties"></exclude>
-        <exclude name="/build.properties"></exclude>
-        <exclude name="/build-temp/**"></exclude>
-        <exclude name="/build.xml"></exclude>
-        <exclude name="/composer.json"></exclude>
-        <exclude name="/composer.lock"></exclude>
-        <exclude name="/drupal-org-core.make"></exclude>
-        <exclude name="/drupal-org-dev.make"></exclude>
-        <exclude name="/drupal-org.make"></exclude>
-        <exclude name="/make/**"></exclude>
-        <exclude name="/vendor/**"></exclude>
+        <exclude name=".gitignore"></exclude>
+        <exclude name="local/**"></exclude>
+        <exclude name="bin/**"></exclude>
+        <exclude name="build/**"></exclude>
+        <exclude name="build-capkopper-corporate-dev.make"></exclude>
+        <exclude name="build-capkopper-corporate.make"></exclude>
+        <exclude name="build.default.properties"></exclude>
+        <exclude name="build.properties"></exclude>
+        <exclude name="build-temp/**"></exclude>
+        <exclude name="build.xml"></exclude>
+        <exclude name="composer.json"></exclude>
+        <exclude name="composer.lock"></exclude>
+        <exclude name="drupal-org-core.make"></exclude>
+        <exclude name="drupal-org-dev.make"></exclude>
+        <exclude name="drupal-org.make"></exclude>
+        <exclude name="make/**"></exclude>
+        <exclude name="vendor/**"></exclude>
       </fileset>
     </copy>
 
@@ -386,7 +386,7 @@
             <exec command="git remote add origin ${drush.capkopper.git-repository}" dir="${build.core.dir}" checkreturn="false" />
             <!-- @TODO add the gitflow configuration -->
 
-            <!--<exec command="git push -u origin --all" dir="${build.core.dir}" checkreturn="false" />-->
+            <!-- <exec command="git push -u origin -all" dir="${build.core.dir}" checkreturn="false" /> -->
           </then>
         </if>
       </then>
