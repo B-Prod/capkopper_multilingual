@@ -26,6 +26,8 @@
         <exclude name="drupal-org-dev.make"></exclude>
         <exclude name="drupal-org.make"></exclude>
         <exclude name="make/**"></exclude>
+        <exclude name="README.md"></exclude>
+        <exclude name="TODO"></exclude>
         <exclude name="vendor/**"></exclude>
       </fileset>
     </copy>
@@ -384,7 +386,9 @@
             <exec command="git branch develop" dir="${build.core.dir}" checkreturn="false" />
             <exec command="git checkout develop" dir="${build.core.dir}" checkreturn="false" />
             <exec command="git remote add origin ${drush.capkopper.git-repository}" dir="${build.core.dir}" checkreturn="false" />
-            <!-- @TODO add the gitflow configuration -->
+            <!-- @TODO:
+                 add the gitflow configuration
+                 make first commit: "Initial import" -->
 
             <!-- <exec command="git push -u origin -all" dir="${build.core.dir}" checkreturn="false" /> -->
           </then>
