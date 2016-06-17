@@ -39,6 +39,9 @@ projects[panopoly_images][patch][2521968] = https://www.drupal.org/files/issues/
 projects[panopoly_theme][version] = 1.29
 projects[panopoly_theme][subdir] = panopoly
 
+; Additional patches to reduce downloaded (useless) modules (custom)
+projects[panopoly_theme][patch][] = local/patches/panopoly_theme-custom.patch
+
 projects[panopoly_magic][version] = 1.29
 projects[panopoly_magic][subdir] = panopoly
 

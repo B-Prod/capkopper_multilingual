@@ -1,0 +1,32 @@
+# Filecache module cache directory.
+/cache
+
+# Symlink for the favicon.
+/drupal/favicon.ico
+
+# Configuration files that may contain sensitive information.
+/drupal/sites/*/settings*.php
+
+# Paths that contain user-generated content.
+/drupal/sites/*/files
+/drupal/sites/*/private
+
+# Root .htaccess and .htpasswd files.
+/drupal/.htaccess
+/drupal/.htpasswd
+
+# Boost cache.
+/drupal/cache
+
+# Composer vendor directory.
+/lib/default/vendor/
+
+# Debug scripts.
+/drupal/dbg-sample.php
+/drupal/dbg-wizard.php
+
+# Drush aliases file
+/drupal/aliases.drushrc.php
+
+# NetBeans files.
+/nbproject/

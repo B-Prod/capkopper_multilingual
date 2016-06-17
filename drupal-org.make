@@ -67,7 +67,7 @@ projects[capkopper_user][subdir] = capkopper
 projects[capkopper_widgets][type] = module
 projects[capkopper_widgets][download][type] = git
 projects[capkopper_widgets][download][url] = git@github.com:capKopper/capkopper_widgets.git
-projects[capkopper_widgets][download][tag] = 7.x-1.0-rc2
+projects[capkopper_widgets][download][tag] = 7.x-1.0-rc3
 projects[capkopper_widgets][subdir] = capkopper
 
 ; **************** End capKopper *****************
