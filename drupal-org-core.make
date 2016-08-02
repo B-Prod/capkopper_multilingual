@@ -3,7 +3,7 @@ core = 7.x
 
 ; Drupal Core
 projects[drupal][type] = core
-projects[drupal][version] = 7.41
+projects[drupal][version] = 7.44
 
 ; ***** Patches from Panopoly *******
 ; Bug with image styles on database update
@@ -31,10 +31,10 @@ projects[drupal][patch][911354] = http://drupal.org/files/911354-drupal-profile-
 projects[drupal][patch][1093420] = https://www.drupal.org/files/issues/drupal-simpletestprofiledependencies-1093420-27-7.x.patch
 
 ; Build menu_tree without loading so many objects
-projects[drupal][patch][1978176] = https://www.drupal.org/files/issues/drupal-1978176-menu_load_objects.patch
+projects[drupal][patch][1978176] = https://www.drupal.org/files/issues/drupal-1978176-menu_load_objects-75.patch
 
-; Patch to fix sanitization of titles in entity_reference
-projects[drupal][patch][1919338] = https://www.drupal.org/files/issues/select-widget-options-D7-1919338-87.patch
+; Patch to prevent empty titles when menu_check_access called more than once
+#projects[drupal][patch][1697570] = https://www.drupal.org/files/drupal7.menu-system.1697570-29.patch
 
 ; Patch to move registry build so entity_get_info can be called during install.
 projects[drupal][patch][1311820] = https://www.drupal.org/files/issues/1311820-drupal-registry_update-13.patch
@@ -45,9 +45,18 @@ projects[drupal][patch][106721] = https://www.drupal.org/files/issues/106721-dru
 ; Cache user grants.
 projects[drupal][patch][2199001] = https://www.drupal.org/files/issues/node_access_grants-static-cache-16.patch
 
+; Fix javascript error with angular
+projects[drupal][patch][2492993] = https://www.drupal.org/files/issues/2492993-drupal-hash-1.patch
+
+; Fixes sticky headers are not calculating the column widths properly.
+projects[drupal][patch][2097081] = https://www.drupal.org/files/2097081-fix-sticky-header-column-width-7.x-6.patch
+
 ; vertical tabs: Uncaught Error: Syntax error, unrecognized expression: #/<whatever>
 projects[drupal][patch][2492993] = https://www.drupal.org/files/issues/2492993-drupal-hash-1.patch
 
-; Fix invalid headers with image styles
-projects[drupal][patch][1891228] = https://www.drupal.org/files/issues/image_system-can_create_invalid_headers-1891228-16.patch
+; Prevent Drupal from scanning node_module and bower_component directories in theme
+projects[drupal][patch][2329453] = https://www.drupal.org/files/issues/ignore_front_end_vendor-2329453-111.patch
+
+; field_default_view() resets delta values due to array_merge()
+projects[drupal][patch][2430399] = https://www.drupal.org/files/issues/2430399-field-default-view-resets-deltas.patch
 

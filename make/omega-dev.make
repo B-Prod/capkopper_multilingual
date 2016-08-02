@@ -3,6 +3,7 @@ core = 7.x
 
 projects[omega][type] = theme
 projects[omega][version] = 4.4
+projects[omega][patch][2453475] = https://www.drupal.org/files/issues/omega-2453475-panels-headings-1.patch
 
 libraries[selectivizr][download][type] = "file"
 libraries[selectivizr][download][url] = "https://github.com/fubhy/selectivizr/archive/master.zip"
