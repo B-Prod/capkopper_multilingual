@@ -234,6 +234,8 @@
       <then>
         <drush command="site-install" root="${build.core.dir}" assume="yes">
           <param>${drupal.profile}</param>
+          <!-- Disable sending of e-mails during installation. -->
+          <!--<param quote="no" escape="no">install_configure_form.update_status_module='array(FALSE,FALSE)'</param>-->
           <option name="db-url">${drush.site-install.db_url}</option>
           <option name="db-prefix">${drush.site-install.db_prefix}</option>
           <option name="site-name">${drush.site-install.site_name}</option>
