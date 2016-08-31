@@ -13,3 +13,4 @@
  */
 $options['include'] = array('profiles/capkopper_multilingual/themes');
 
+$command_specific['dl'] = array('destination' => 'sites/all/modules/contrib');
